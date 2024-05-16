@@ -3,6 +3,9 @@ package com.capgemini.wsb.persistence.dao;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Dao is an interface that provides CRUD operations to base on for other Dao-s.
+ */
 public interface Dao<T, K extends Serializable> {
 
     T save(T entity);

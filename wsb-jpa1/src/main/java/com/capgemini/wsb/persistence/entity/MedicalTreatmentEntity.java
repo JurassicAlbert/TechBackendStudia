@@ -5,54 +5,100 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
+/**
+ * MedicalTreatmentEntity is a JPA entity representing a medical treatment.
+ * It includes fields for description and type of treatment,
+ * and has a relationship with VisitEntity.
+ */
 @Entity
 @Table(name = "MEDICAL_TREATMENT")
 public class MedicalTreatmentEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "description", nullable = false)
-	private String description;
-	@Column(name = "type", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private TreatmentType type;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-	@ManyToOne
-	@JoinColumn(name = "VISIT_ID")
-	@JsonBackReference
-	private VisitEntity visit;
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TreatmentType type;
 
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "VISIT_ID")
+    @JsonBackReference
+    private VisitEntity visit;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * Gets the ID of the medical treatment.
+     *
+     * @return the ID of the medical treatment
+     */
+    public Long getId() {
+        return id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * Sets the ID of the medical treatment.
+     *
+     * @param id the ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * Gets the description of the medical treatment.
+     *
+     * @return the description of the medical treatment
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	public TreatmentType getType() {
-		return type;
-	}
+    /**
+     * Sets the description of the medical treatment.
+     *
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setType(TreatmentType type) {
-		this.type = type;
-	}
+    /**
+     * Gets the type of the medical treatment.
+     *
+     * @return the type of the medical treatment
+     */
+    public TreatmentType getType() {
+        return type;
+    }
 
-	public VisitEntity getVisit() {
-		return visit;
-	}
+    /**
+     * Sets the type of the medical treatment.
+     *
+     * @param type the type to set
+     */
+    public void setType(TreatmentType type) {
+        this.type = type;
+    }
 
-	public void setVisit(VisitEntity visit) {
-		this.visit = visit;
-	}
+    /**
+     * Gets the visit associated with the medical treatment.
+     *
+     * @return the visit associated with the medical treatment
+     */
+    public VisitEntity getVisit() {
+        return visit;
+    }
+
+    /**
+     * Sets the visit associated with the medical treatment.
+     *
+     * @param visit the visit to set
+     */
+    public void setVisit(VisitEntity visit) {
+        this.visit = visit;
+    }
 }
