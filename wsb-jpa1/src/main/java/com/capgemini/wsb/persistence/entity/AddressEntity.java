@@ -1,10 +1,9 @@
 package com.capgemini.wsb.persistence.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.capgemini.wsb.dto.PatientTO;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -13,14 +12,23 @@ public class AddressEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@Column(name = "city", nullable = false)
 	private String city;
 
+	@Column(name = "addressLine1", nullable = false)
 	private String addressLine1;
 
+	@Column(name = "addressLine2")
 	private String addressLine2;
 
+	@Column(name = "postalCode", nullable = false)
 	private String postalCode;
+
+	@ManyToMany(mappedBy = "addresses")
+	private List<DoctorEntity> doctors;
+
+	@ManyToMany(mappedBy = "addresses")
+	private List<PatientEntity> patients;
 
 	public Long getId() {
 		return id;
@@ -62,4 +70,19 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+	public List<DoctorEntity> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(List<DoctorEntity> doctors) {
+		this.doctors = doctors;
+	}
+
+	public List<PatientEntity> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<PatientEntity> patients) {
+		this.patients = patients;
+	}
 }
