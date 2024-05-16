@@ -3,6 +3,8 @@ package com.capgemini.wsb.mapper;
 import com.capgemini.wsb.dto.AddressTO;
 import com.capgemini.wsb.persistence.entity.AddressEntity;
 
+import java.util.stream.Collectors;
+
 public final class AddressMapper
 {
 
@@ -18,6 +20,12 @@ public final class AddressMapper
         addressTO.setAddressLine2(addressEntity.getAddressLine2());
         addressTO.setCity(addressEntity.getCity());
         addressTO.setPostalCode(addressEntity.getPostalCode());
+        if (addressEntity.getPatients() != null) {
+            addressTO.setPatients(addressEntity.getPatients().stream().map(PatientMapper::mapToTO).collect(Collectors.toList()));
+        }
+        if (addressEntity.getDoctors() != null) {
+            addressTO.setDoctors(addressEntity.getDoctors().stream().map(DoctorMapper::mapToTO).collect(Collectors.toList()));
+        }
         return addressTO;
     }
 
@@ -33,6 +41,12 @@ public final class AddressMapper
         addressEntity.setAddressLine2(addressTO.getAddressLine2());
         addressEntity.setCity(addressTO.getCity());
         addressEntity.setPostalCode(addressTO.getPostalCode());
+        if (addressTO.getDoctors() != null) {
+            addressEntity.setDoctors(addressTO.getDoctors().stream().map(DoctorMapper::mapToEntity).collect(Collectors.toList()));
+        }
+        if (addressTO.getPatients() != null) {
+            addressEntity.setPatients(addressTO.getPatients().stream().map(PatientMapper::mapToEntity).collect(Collectors.toList()));
+        }
         return addressEntity;
     }
 }
