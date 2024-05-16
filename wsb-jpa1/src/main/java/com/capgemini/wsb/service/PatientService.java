@@ -5,18 +5,62 @@ import com.capgemini.wsb.dto.VisitTO;
 
 import java.util.List;
 
+/**
+ * Service interface for managing patients.
+ */
 public interface PatientService {
-    public PatientTO findById(final Long id);
 
+    /**
+     * Finds a patient by their ID.
+     *
+     * @param id the ID of the patient to find
+     * @return the found patient
+     */
+    PatientTO findById(Long id);
+
+    /**
+     * Adds a new patient.
+     *
+     * @param patientTO the patient data transfer object
+     * @return the added patient
+     */
     PatientTO addPatient(PatientTO patientTO);
 
-    void removePatient(Long patientId);
-
+    /**
+     * Updates an existing patient.
+     *
+     * @param patientTO the updated patient data transfer object
+     * @return the updated patient
+     */
     PatientTO updatePatient(PatientTO patientTO);
 
+    /**
+     * Deletes a patient by their ID.
+     *
+     * @param id the ID of the patient to delete
+     */
+    void removePatient(Long id);
+
+    /**
+     * Gets all visits for a specific patient.
+     *
+     * @param patientId the ID of the patient
+     * @return the list of visits for the patient
+     */
     List<VisitTO> getAllVisitsForPatient(Long patientId);
 
-    PatientTO getPatientWithVisits(Long patientID);
+    /**
+     * Gets a patient with their visits.
+     *
+     * @param patientId the ID of the patient
+     * @return the patient with their visits
+     */
+    PatientTO getPatientWithVisits(Long patientId);
 
+    /**
+     * Gets the list of all patients.
+     *
+     * @return the list of all patients
+     */
     List<PatientTO> getPatientList();
 }
