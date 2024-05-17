@@ -39,7 +39,7 @@ public class VisitServiceImpl implements VisitService {
      */
     @Override
     public VisitTO findById(Long id) {
-        final VisitEntity visitEntity = visitDao.findOne(id);
+        VisitEntity visitEntity = visitDao.findOne(id);
         return VisitMapper.mapToTO(visitEntity);
     }
 
@@ -50,7 +50,7 @@ public class VisitServiceImpl implements VisitService {
      */
     @Override
     public List<VisitTO> findAllVisits() {
-        final List<VisitEntity> visits = visitDao.findAll();
+        List<VisitEntity> visits = visitDao.findAll();
         return visits.stream().map(VisitMapper::mapToTO).collect(Collectors.toList());
     }
 

@@ -39,4 +39,40 @@ public class AddressServiceImpl implements AddressService {
         final AddressEntity entity = addressDao.findOne(id);
         return AddressMapper.mapToTO(entity);
     }
+
+    /**
+     * Adds a new address.
+     *
+     * @param addressTO the address data transfer object
+     * @return the added address
+     */
+    @Override
+    public AddressTO addAddress(AddressTO addressTO) {
+        AddressEntity addressEntity = AddressMapper.mapToEntity(addressTO);
+        AddressEntity savedAddress = addressDao.save(addressEntity);
+        return AddressMapper.mapToTO(savedAddress);
+    }
+
+    /**
+     * Updates an existing address.
+     *
+     * @param addressTO the updated address data transfer object
+     * @return the updated address
+     */
+    @Override
+    public AddressTO updateAddress(AddressTO addressTO) {
+        AddressEntity addressEntity = AddressMapper.mapToEntity(addressTO);
+        AddressEntity updatedAddress = addressDao.update(addressEntity);
+        return AddressMapper.mapToTO(updatedAddress);
+    }
+
+    /**
+     * Removes an address by its ID.
+     *
+     * @param id the ID of the address to remove
+     */
+    @Override
+    public void removeAddress(Long id) {
+        addressDao.delete(id);
+    }
 }
