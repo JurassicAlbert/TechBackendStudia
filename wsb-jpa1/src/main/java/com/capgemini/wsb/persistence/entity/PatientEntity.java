@@ -17,220 +17,122 @@ import javax.persistence.*;
 @Table(name = "PATIENT")
 public class PatientEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "firstName", nullable = false)
-	private String firstName;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
 
-	@Column(name = "lastName", nullable = false)
-	private String lastName;
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
 
-	@Column(name = "telephoneNumber", nullable = false)
-	private String telephoneNumber;
+    @Column(name = "telephoneNumber", nullable = false)
+    private String telephoneNumber;
 
-	@Column(name = "email", nullable = false)
-	private String email;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-	@Column(name = "patientNumber", nullable = false)
-	private String patientNumber;
+    @Column(name = "patientNumber", nullable = false)
+    private String patientNumber;
 
-	@Column(name = "dateOfBirth", nullable = false)
-	private LocalDate dateOfBirth;
+    @Column(name = "dateOfBirth", nullable = false)
+    private LocalDate dateOfBirth;
 
-	@Column(name = "hasInsurance", nullable = false)
-	private boolean hasInsurance;
+    @Column(name = "hasInsurance", nullable = false)
+    private boolean hasInsurance;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "PATIENT_ADDRESS_MAPPING",
-			joinColumns = @JoinColumn(name = "PATIENT_ID"),
-			inverseJoinColumns = @JoinColumn(name = "ADDRESS_ID")
-	)
-	private List<AddressEntity> addresses;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PATIENT_ADDRESS_MAPPING",
+            joinColumns = @JoinColumn(name = "PATIENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ADDRESS_ID")
+    )
+    private List<AddressEntity> addresses;
 
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	@JsonManagedReference
-	private List<VisitEntity> visits;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<VisitEntity> visits;
 
-	/**
-	 * Gets the ID of the patient.
-	 *
-	 * @return the ID of the patient
-	 */
-	public Long getId() {
-		return id;
-	}
+    // Getters and setters for all fields
 
-	/**
-	 * Sets the ID of the patient.
-	 *
-	 * @param id the ID to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * Gets the first name of the patient.
-	 *
-	 * @return the first name of the patient
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * Sets the first name of the patient.
-	 *
-	 * @param firstName the first name to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	/**
-	 * Gets the last name of the patient.
-	 *
-	 * @return the last name of the patient
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	/**
-	 * Sets the last name of the patient.
-	 *
-	 * @param lastName the last name to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	/**
-	 * Gets the telephone number of the patient.
-	 *
-	 * @return the telephone number of the patient
-	 */
-	public String getTelephoneNumber() {
-		return telephoneNumber;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	/**
-	 * Sets the telephone number of the patient.
-	 *
-	 * @param telephoneNumber the telephone number to set
-	 */
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
-	}
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
 
-	/**
-	 * Gets the email of the patient.
-	 *
-	 * @return the email of the patient
-	 */
-	public String getEmail() {
-		return email;
-	}
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
 
-	/**
-	 * Sets the email of the patient.
-	 *
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	/**
-	 * Gets the patient number.
-	 *
-	 * @return the patient number
-	 */
-	public String getPatientNumber() {
-		return patientNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	/**
-	 * Sets the patient number.
-	 *
-	 * @param patientNumber the patient number to set
-	 */
-	public void setPatientNumber(String patientNumber) {
-		this.patientNumber = patientNumber;
-	}
+    public String getPatientNumber() {
+        return patientNumber;
+    }
 
-	/**
-	 * Gets the date of birth of the patient.
-	 *
-	 * @return the date of birth of the patient
-	 */
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
+    public void setPatientNumber(String patientNumber) {
+        this.patientNumber = patientNumber;
+    }
 
-	/**
-	 * Sets the date of birth of the patient.
-	 *
-	 * @param dateOfBirth the date of birth to set
-	 */
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-	/**
-	 * Gets the addresses associated with the patient.
-	 *
-	 * @return the addresses associated with the patient
-	 */
-	public List<AddressEntity> getAddresses() {
-		return addresses;
-	}
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-	/**
-	 * Sets the addresses associated with the patient.
-	 *
-	 * @param addresses the addresses to set
-	 */
-	public void setAddresses(List<AddressEntity> addresses) {
-		this.addresses = addresses;
-	}
+    public boolean isHasInsurance() {
+        return hasInsurance;
+    }
 
-	/**
-	 * Gets the visits associated with the patient.
-	 *
-	 * @return the visits associated with the patient
-	 */
-	public List<VisitEntity> getVisits() {
-		return visits;
-	}
+    public void setHasInsurance(boolean hasInsurance) {
+        this.hasInsurance = hasInsurance;
+    }
 
-	/**
-	 * Sets the visits associated with the patient.
-	 *
-	 * @param visits the visits to set
-	 */
-	public void setVisits(List<VisitEntity> visits) {
-		this.visits = visits;
-	}
+    public List<AddressEntity> getAddresses() {
+        return addresses;
+    }
 
-	/**
-	 * Checks if the patient has insurance.
-	 *
-	 * @return true if the patient has insurance, false otherwise
-	 */
-	public boolean isHasInsurance() {
-		return hasInsurance;
-	}
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
+    }
 
-	/**
-	 * Sets the insurance status of the patient.
-	 *
-	 * @param hasInsurance the insurance status to set
-	 */
-	public void setHasInsurance(boolean hasInsurance) {
-		this.hasInsurance = hasInsurance;
-	}
+    public List<VisitEntity> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<VisitEntity> visits) {
+        this.visits = visits;
+    }
 }
