@@ -6,20 +6,13 @@ import com.capgemini.wsb.persistence.entity.PatientEntity;
 import java.util.stream.Collectors;
 
 /**
- * The PatientMapper class provides methods to map between PatientEntity and PatientTO.
+ * Mapper class to map PatientEntity objects to PatientTO objects and vice versa.
  */
 public final class PatientMapper {
 
     private PatientMapper() {
-        // Private constructor to prevent instantiation
     }
 
-    /**
-     * Maps a PatientEntity to a PatientTO.
-     *
-     * @param patientEntity the PatientEntity to map
-     * @return the mapped PatientTO
-     */
     public static PatientTO mapToTO(final PatientEntity patientEntity) {
         if (patientEntity == null) {
             return null;
@@ -33,25 +26,19 @@ public final class PatientMapper {
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
         patientTO.setHasInsurance(patientEntity.isHasInsurance());
-        if (patientEntity.getAddresses() != null) {
-            patientTO.setAddresses(patientEntity.getAddresses().stream()
-                    .map(AddressMapper::mapToTO)
-                    .collect(Collectors.toList()));
-        }
         if (patientEntity.getVisits() != null) {
             patientTO.setVisits(patientEntity.getVisits().stream()
                     .map(VisitMapper::mapToTO)
                     .collect(Collectors.toList()));
         }
+        if (patientEntity.getAddresses() != null) {
+            patientTO.setAddresses(patientEntity.getAddresses().stream()
+                    .map(AddressMapper::mapToTO)
+                    .collect(Collectors.toList()));
+        }
         return patientTO;
     }
 
-    /**
-     * Maps a PatientTO to a PatientEntity.
-     *
-     * @param patientTO the PatientTO to map
-     * @return the mapped PatientEntity
-     */
     public static PatientEntity mapToEntity(final PatientTO patientTO) {
         if (patientTO == null) {
             return null;
@@ -65,14 +52,14 @@ public final class PatientMapper {
         patientEntity.setPatientNumber(patientTO.getPatientNumber());
         patientEntity.setDateOfBirth(patientTO.getDateOfBirth());
         patientEntity.setHasInsurance(patientTO.isHasInsurance());
-        if (patientTO.getAddresses() != null) {
-            patientEntity.setAddresses(patientTO.getAddresses().stream()
-                    .map(AddressMapper::mapToEntity)
-                    .collect(Collectors.toList()));
-        }
         if (patientTO.getVisits() != null) {
             patientEntity.setVisits(patientTO.getVisits().stream()
                     .map(VisitMapper::mapToEntity)
+                    .collect(Collectors.toList()));
+        }
+        if (patientTO.getAddresses() != null) {
+            patientEntity.setAddresses(patientTO.getAddresses().stream()
+                    .map(AddressMapper::mapToEntity)
                     .collect(Collectors.toList()));
         }
         return patientEntity;
