@@ -3,7 +3,10 @@ package com.capgemini.wsb.service.impl;
 import com.capgemini.wsb.dto.DoctorTO;
 import com.capgemini.wsb.mapper.DoctorMapper;
 import com.capgemini.wsb.persistence.dao.DoctorDao;
+import com.capgemini.wsb.persistence.dao.VisitDao;
+import com.capgemini.wsb.persistence.dao.MedicalTreatmentDao;
 import com.capgemini.wsb.persistence.entity.DoctorEntity;
+import com.capgemini.wsb.persistence.entity.VisitEntity;
 import com.capgemini.wsb.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +23,21 @@ import java.util.stream.Collectors;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorDao doctorDao;
+    private final VisitDao visitDao;
+    private final MedicalTreatmentDao medicalTreatmentDao;
 
     /**
-     * Constructs a DoctorServiceImpl with the specified DoctorDao.
+     * Constructs a DoctorServiceImpl with the specified DoctorDao, VisitDao, and MedicalTreatmentDao.
      *
-     * @param doctorRepository the DoctorDao to use for data access operations
+     * @param doctorDao           the DoctorDao to use for data access operations
+     * @param visitDao            the VisitDao to use for data access operations
+     * @param medicalTreatmentDao the MedicalTreatmentDao to use for data access operations
      */
     @Autowired
-    public DoctorServiceImpl(DoctorDao doctorRepository) {
-        this.doctorDao = doctorRepository;
+    public DoctorServiceImpl(DoctorDao doctorDao, VisitDao visitDao, MedicalTreatmentDao medicalTreatmentDao) {
+        this.doctorDao = doctorDao;
+        this.visitDao = visitDao;
+        this.medicalTreatmentDao = medicalTreatmentDao;
     }
 
     /**
@@ -39,7 +48,7 @@ public class DoctorServiceImpl implements DoctorService {
      */
     @Override
     public DoctorTO findById(Long id) {
-        final DoctorEntity doctorEntity = doctorDao.findOne(id);
+        final DoctorEntity doctorEntity = doctorDao.findById(id).orElse(null);
         return DoctorMapper.mapToTO(doctorEntity);
     }
 
@@ -76,7 +85,19 @@ public class DoctorServiceImpl implements DoctorService {
      */
     @Override
     public void removeDoctor(Long id) {
-        doctorDao.delete(id);
+        DoctorEntity doctorEntity = doctorDao.findById(id).orElse(null);
+        if (doctorEntity != null) {
+            // Dissociate MedicalTreatment entities from Visit entities
+            doctorEntity.getVisits().forEach(visit -> {
+                visit.getMedicalTreatments().forEach(treatment -> {
+                    treatment.setVisit(null);
+                    medicalTreatmentDao.update(treatment);
+                });
+            });
+            // Delete Visit entities
+            doctorEntity.getVisits().forEach(visit -> visitDao.delete(visit.getId()));
+            doctorDao.delete(id);
+        }
     }
 
     /**

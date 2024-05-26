@@ -144,4 +144,9 @@ public class AddressTO implements Serializable {
     public void setPatients(List<PatientTO> patients) {
         this.patients = patients;
     }
+
+    public AddressTO() {
+        // Default constructor
+    }
+
 }

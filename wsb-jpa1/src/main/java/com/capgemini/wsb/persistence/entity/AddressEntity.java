@@ -159,4 +159,8 @@ public class AddressEntity {
 	public void setPatients(List<PatientEntity> patients) {
 		this.patients = patients;
 	}
+
+	public AddressEntity() {
+		// Default constructor
+	}
 }

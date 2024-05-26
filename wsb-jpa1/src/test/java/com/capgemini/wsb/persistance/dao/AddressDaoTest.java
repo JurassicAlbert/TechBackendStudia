@@ -1,6 +1,6 @@
 package com.capgemini.wsb.persistance.dao;
 
-import com.capgemini.wsb.persistence.dao.AddressDao;
+import com.capgemini.wsb.persistence.dao.impl.AddressDaoImpl;
 import com.capgemini.wsb.persistence.entity.AddressEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,19 +15,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class AddressDaoTest {
     @Autowired
-    private AddressDao addressDao;
+    private AddressDaoImpl addressDao;
 
     @Transactional
     @Test
     public void testShouldFindAddressById() {
         // given
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setAddressLine1("ul. Zielona 10");
+        addressEntity.setAddressLine2("apt. 8");
+        addressEntity.setCity("Warszawa");
+        addressEntity.setPostalCode("00-123");
+        addressDao.save(addressEntity);
+
         // when
-        AddressEntity addressEntity = addressDao.findOne(1L);
+        AddressEntity foundEntity = addressDao.findById(addressEntity.getId()).orElse(null);
+
         // then
-        assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("00-123");
+        assertThat(foundEntity).isNotNull();
+        assertThat(foundEntity.getPostalCode()).isEqualTo("00-123");
     }
 
+    @Transactional
     @Test
     public void testShouldSaveAddress() {
         // given
@@ -60,15 +69,13 @@ public class AddressDaoTest {
         // when
         final AddressEntity saved = addressDao.save(addressEntity);
         assertThat(saved.getId()).isNotNull();
-        final AddressEntity newSaved = addressDao.findOne(saved.getId());
+        final AddressEntity newSaved = addressDao.findById(saved.getId()).orElse(null);
         assertThat(newSaved).isNotNull();
 
         addressDao.delete(saved.getId());
 
         // then
-        final AddressEntity removed = addressDao.findOne(saved.getId());
+        final AddressEntity removed = addressDao.findById(saved.getId()).orElse(null);
         assertThat(removed).isNull();
     }
-
-
 }
